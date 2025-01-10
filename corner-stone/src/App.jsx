@@ -1,36 +1,20 @@
-// import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Dashboard from "./components/dashboard/Dashboard"; 
-
-import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import Login from './components/Login';
+import Dashboard from './components/dashboard/Dashboard';
+import PrivateRoute from './components/PrivateRoute'; // Assuming you have a PrivateRoute component
 
 function App() {
   return (
-    <Router>
-      <div>
-        <h2>Welcome to Ibibe Gaming Kanban Management System!</h2>
-
-        {/* Hamburger Menu */}
-        <div className="hamburger-menu">
-          <nav>
-            <ul>
-              <li><Link to="/dashboard">Home</Link></li>
-              <li><Link to="/login">Log in</Link></li>
-              <li><Link to="/logout">Log out</Link></li>
-              <li><Link to="/admin">Admin Portal</Link></li>
-            </ul>
-          </nav>
-        </div>
-
-        {/* Define Routes */}
+    <AuthProvider>
+      <Router>
         <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/login" element={<div>Login Page</div>} />
-          <Route path="/logout" element={<div>Logout Page</div>} />
-          <Route path="/admin" element={<div>Admin Portal</div>} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+          {/* Add other routes as needed */}
         </Routes>
-      </div>
-    </Router>
+      </Router>
+    </AuthProvider>
   );
 }
 
